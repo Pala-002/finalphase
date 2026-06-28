@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }}</h2>
+{% if redtic_score %}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-{{ 'danger' if redtic_score.stress_level == 'alto' else 'warning' if redtic_score.stress_level == 'moderado' else 'success' }}">
+                Nivel de Tecnoestrés: {{ redtic_score.stress_level|upper }}
+            </div>
+            <div class="card-body">
+                <canvas id="radarChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Resultados Cognitivos</div>
+            <div class="card-body">
+                {% if stroop %}
+                <p><strong>Stroop:</strong> {{ "%.1f"|format(stroop.completion_rate) }}% precisión</p>
+                {% endif %}
+                {% if nback %}
+                <p><strong>N-Back:</strong> {{ "%.1f"|format(nback.accuracy) }}% precisión</p>
+                {% endif %}
+                {% if digitspan_forward %}
+                <p><strong>Digit Span Forward:</strong> {{ digitspan_forward.max_span }} dígitos</p>
+                {% endif %}
+                {% if crt_total > 0 %}
+                <p><strong>CRT:</strong> {{ crt_correct }}/{{ crt_total }} correctas</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% if recommendations %}
+<div class="card mb-4">
+    <div class="card-header">Recomendaciones</div>
+    <div class="card-body">
+        <ul>
+        {% for rec in recommendations %}
+            <li>{{ rec }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+{% else %}
+<p>No has completado la evaluación aún.</p>
+<a href="{{ url_for('evaluation.consent') }}" class="btn btn-primary">Comenzar Evaluación</a>
+{% endif %}
+{% endblock %}
+{% block extra_js %}
+<script>
+{% if redtic_score %}
+new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+        labels: ['Fatiga', 'Ansiedad', 'Escepticismo', 'Ineficacia'],
+        datasets: [{
+            label: 'Puntajes',
+            data: [{{ redtic_score.fatiga_tecnologica or 0 }}, {{ redtic_score.ansiedad_tecnologica or 0 }}, {{ redtic_score.escepticismo or 0 }}, {{ redtic_score.ineficacia or 0 }}],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 2
+        }]
+    },
+    options: { scales: { r: { min: 0, max: 100 } } }
+});
+{% endif %}
+</script>
+{% endblock %}

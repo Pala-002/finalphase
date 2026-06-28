@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }}</h2>
+{% if score %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">Nivel de Tecnoestrés: <strong>{{ score.stress_level|upper }}</strong></div>
+            <div class="card-body">
+                <canvas id="stressChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">Dimensiones RED-TIC</div>
+            <div class="card-body">
+                <canvas id="radarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-4">
+    <a href="{{ url_for('cognitive.test_selection') }}" class="btn btn-primary">Continuar con Pruebas Cognitivas</a>
+</div>
+{% endif %}
+{% endblock %}
+{% block extra_js %}
+<script>
+const score = {
+    fatiga: {{ score.fatiga_tecnologica or 0 }},
+    ansiedad: {{ score.ansiedad_tecnologica or 0 }},
+    escepticismo: {{ score.escepticismo or 0 }},
+    ineficacia: {{ score.ineficacia or 0 }}
+};
+// Radar chart
+new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+        labels: ['Fatiga', 'Ansiedad', 'Escepticismo', 'Ineficacia'],
+        datasets: [{
+            label: 'Puntajes',
+            data: [score.fatiga, score.ansiedad, score.escepticismo, score.ineficacia],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 2
+        }]
+    },
+    options: { scales: { r: { min: 0, max: 100 } } }
+});
+</script>
+{% endblock %}

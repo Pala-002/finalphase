@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }}</h2>
+<div id="stroop-container" class="text-center">
+    <div id="instructions">
+        <p>Haz clic en el color de la PALABRA (no lo que dice la palabra).</p>
+        <button id="start-stroop" class="btn btn-primary btn-lg">Comenzar</button>
+    </div>
+    <div id="test-area" class="d-none">
+        <h1 id="stimulus" class="display-1 my-4"></h1>
+        <div id="color-buttons" class="btn-group">
+            <button class="btn" style="background-color: red; color: white;" data-color="rojo">Rojo</button>
+            <button class="btn" style="background-color: blue; color: white;" data-color="azul">Azul</button>
+            <button class="btn" style="background-color: green; color: white;" data-color="verde">Verde</button>
+            <button class="btn" style="background-color: yellow; color: black;" data-color="amarillo">Amarillo</button>
+        </div>
+        <p class="mt-3">Ensayo: <span id="trial-count">0</span>/20</p>
+    </div>
+    <div id="complete" class="d-none">
+        <h3>¡Test Completado!</h3>
+        <a href="{{ url_for('cognitive.test_selection') }}" class="btn btn-primary">Volver</a>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/stroop.js') }}"></script>
+{% endblock %}

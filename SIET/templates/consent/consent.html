@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header"><h3>{{ title }}</h3></div>
+    <div class="card-body">
+        <h5>Información del Estudio</h5>
+        <p>Este estudio tiene como objetivo evaluar el tecnoestrés mediante cuestionarios validados y pruebas cognitivas.</p>
+        <h6>Participación Voluntaria</h6>
+        <p>Su participación es completamente voluntaria. Puede retirarse en cualquier momento sin consecuencias.</p>
+        <h6>Confidencialidad</h6>
+        <p>Todos los datos serán tratados de manera confidencial y utilizados únicamente para fines de investigación.</p>
+        <h6>Duración</h6>
+        <p>La evaluación completa tomará aproximadamente 20-30 minutos.</p>
+        <hr>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-check mb-3">
+                {{ form.agree(class="form-check-input") }}
+                {{ form.agree.label(class="form-check-label") }}
+            </div>
+            {{ form.submit(class="btn btn-success") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

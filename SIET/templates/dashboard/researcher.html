@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }}</h2>
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Usuarios</h5>
+                <p class="display-4">{{ total_users }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Sesiones</h5>
+                <p class="display-4">{{ total_sessions }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Estrés Promedio</h5>
+                <p class="display-4">{{ avg_stress }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Stroop Avg</h5>
+                <p class="display-4">{{ avg_stroop_accuracy }}%</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">Distribución de Estrés</div>
+            <div class="card-body">
+                <canvas id="stressDistChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">Exportar Datos</div>
+            <div class="card-body">
+                <a href="{{ url_for('dashboard.export_csv') }}" class="btn btn-outline-primary me-2">CSV</a>
+                <a href="{{ url_for('dashboard.export_excel') }}" class="btn btn-outline-success">Excel</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+new Chart(document.getElementById('stressDistChart'), {
+    type: 'pie',
+    data: {
+        labels: ['Bajo', 'Moderado', 'Alto'],
+        datasets: [{
+            data: [{{ stress_distribution.bajo }}, {{ stress_distribution.moderado }}, {{ stress_distribution.alto }}],
+            backgroundColor: ['#28a745', '#ffc107', '#dc3545']
+        }]
+    }
+});
+</script>
+{% endblock %}

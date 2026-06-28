@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }}</h2>
+<h4>Behavior Logs (Recientes)</h4>
+<table class="table table-sm">
+    <thead><tr><th>ID</th><th>Sesión</th><th>Evento</th><th>Timestamp</th></tr></thead>
+    <tbody>
+    {% for log in behavior_logs %}
+    <tr><td>{{ log.id }}</td><td>{{ log.session_id }}</td><td>{{ log.event_type }}</td><td>{{ log.timestamp }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
