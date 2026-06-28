@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }} (2-Back)</h2>
+<div id="nback-container" class="text-center">
+    <div id="instructions">
+        <p>Presiona ESPACIO cuando veas una letra que coincide con la que apareció DOS posiciones antes.</p>
+        <button id="start-nback" class="btn btn-primary btn-lg">Comenzar</button>
+    </div>
+    <div id="test-area" class="d-none">
+        <h1 id="stimulus" class="display-1 my-4" style="min-height: 100px;"></h1>
+        <p>Ensayo: <span id="trial-count">0</span>/20</p>
+        <p>Aciertos: <span id="hits">0</span> | Errores: <span id="errors">0</span></p>
+    </div>
+    <div id="complete" class="d-none">
+        <h3>¡Test Completado!</h3>
+        <a href="{{ url_for('cognitive.test_selection') }}" class="btn btn-primary">Volver</a>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/nback.js') }}"></script>
+{% endblock %}

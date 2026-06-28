@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }}</h2>
+<div id="crt-container">
+    {% set questions = [
+        {'id': 1, 'question': 'Un bate y una pelota cuestan $1.10 en total. El bate cuesta $1.00 más que la pelota. ¿Cuánto cuesta la pelota?', 'options': ['$0.10', '$0.05', '$0.15']},
+        {'id': 2, 'question': 'Si 5 máquinas tardan 5 minutos en hacer 5 artículos, ¿cuánto tiempo tardarían 100 máquinas en hacer 100 artículos?', 'options': ['100 minutos', '5 minutos', '50 minutos']},
+        {'id': 3, 'question': 'En un lago hay un parche de nenúfares. Cada día, el parche duplica su tamaño. Si tarda 48 días en cubrir todo el lago, ¿cuánto tarda en cubrir la mitad del lago?', 'options': ['24 días', '47 días', '46 días']}
+    ] %}
+    {% for q in questions %}
+    <div class="card mb-3 question-card" id="question-{{ q.id }}">
+        <div class="card-body">
+            <p class="card-text">{{ loop.index }}. {{ q.question }}</p>
+            <div class="btn-group" role="group">
+                {% for opt in q.options %}
+                <button type="button" class="btn btn-outline-primary crt-option" data-question="{{ q.id }}" data-answer="{{ opt }}">{{ opt }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <button id="submit-crt" class="btn btn-primary btn-lg">Enviar Respuestas</button>
+    <div id="result" class="d-none mt-4">
+        <h3>Puntaje: <span id="crt-score"></span>/3</h3>
+        <a href="{{ url_for('cognitive.test_selection') }}" class="btn btn-primary">Volver</a>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/crt.js') }}"></script>
+{% endblock %}

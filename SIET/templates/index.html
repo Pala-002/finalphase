@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron bg-light p-5 rounded-3">
+    <h1 class="display-4">SIET</h1>
+    <p class="lead">Sistema Inteligente de Evaluación de Tecnoestrés</p>
+    <hr class="my-4">
+    <p>Plataforma de evaluación basada en evidencia científica que integra:</p>
+    <ul>
+        <li>Cuestionario RED-TIC para medición de tecnoestrés</li>
+        <li>Pruebas cognitivas digitales (Stroop, N-Back, Digit Span, Trail Making, CRT)</li>
+        <li>Learning Analytics y Behavioral Analytics</li>
+        <li>Dashboards interactivos con visualización de resultados</li>
+    </ul>
+    {% if not current_user.is_authenticated %}
+    <a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Comenzar Evaluación</a>
+    {% else %}
+    <a class="btn btn-primary btn-lg" href="{{ url_for('evaluation.consent') }}">Iniciar Evaluación</a>
+    {% endif %}
+</div>
+{% endblock %}

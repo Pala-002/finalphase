@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }}</h2>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Usuario</th><th>Inicio</th><th>Duración</th><th>Estado</th></tr></thead>
+    <tbody>
+    {% for session in sessions %}
+    <tr>
+        <td>{{ session.id }}</td>
+        <td>{{ session.user_id }}</td>
+        <td>{{ session.start_time }}</td>
+        <td>{{ session.total_duration_seconds or 'N/A' }}s</td>
+        <td>{{ session.status }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

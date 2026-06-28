@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }}</h2>
+<div id="trailmaking-container">
+    <div id="instructions">
+        <p><strong>Versión A:</strong> Conecta los números en orden ascendente (1 → 2 → 3...)</p>
+        <p><strong>Versión B:</strong> Alterna entre números y letras (1 → A → 2 → B → 3 → C...)</p>
+        <button id="start-version-a" class="btn btn-primary btn-lg me-2">Versión A</button>
+        <button id="start-version-b" class="btn btn-secondary btn-lg">Versión B</button>
+    </div>
+    <div id="test-area" class="d-none">
+        <canvas id="trail-canvas" width="600" height="400" class="border bg-light"></canvas>
+        <p class="mt-2">Tiempo: <span id="time">0.0</span>s</p>
+    </div>
+    <div id="complete" class="d-none">
+        <h3>¡Test Completado!</h3>
+        <p>Tiempo: <span id="final-time"></span>s</p>
+        <a href="{{ url_for('cognitive.test_selection') }}" class="btn btn-primary">Volver</a>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/trailmaking.js') }}"></script>
+{% endblock %}

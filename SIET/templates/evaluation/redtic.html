@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ title }}</h2>
+<p class="text-muted">Responde según tu experiencia con la tecnología. No hay respuestas correctas o incorrectas.</p>
+<form id="redtic-form">
+    {% for question in questions %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <p class="card-text">{{ loop.index }}. {{ question.question_text }}</p>
+            <div class="btn-group w-100" role="group">
+                {% for option in likert_scale %}
+                <input type="radio" class="btn-check" name="q{{ question.id }}" id="q{{ question.id }}_{{ option.value }}" value="{{ option.value }}" required>
+                <label class="btn btn-outline-primary" for="q{{ question.id }}_{{ option.value }}">{{ option.label }}</label>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary btn-lg w-100">Enviar Respuestas</button>
+</form>
+<div id="loading" class="text-center d-none">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p>Procesando respuestas...</p>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/redtic.js') }}"></script>
+{% endblock %}
